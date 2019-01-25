@@ -45,7 +45,8 @@ function buildMetadata(sample) {
           showlegend: false,
           name: 'Wash Frequency',
           text: washFrequency,
-          hoverinfo: 'text+name'},
+          hoverinfo: 'name+text'
+        },
         { values: [20, 20, 20, 20, 20, 20, 20, 20, 20, 180],
         rotation: 90,
         text: ['8-9', '7-8', '6-7', '5-6',
@@ -58,7 +59,7 @@ function buildMetadata(sample) {
                         'rgba(100, 140, 20, .5)', 'rgba(35, 138, 23, .5)', 
                         'rgba(14, 127, 0, .5)', 'rgba(255, 255, 255, 0)']},
         labels: 'text',
-        hoverinfo: 'label',
+        hoverinfo: 'text',
         hole: .5,
         type: 'pie',
         showlegend: false
@@ -74,8 +75,6 @@ function buildMetadata(sample) {
             }
           }],
         title: 'Bellybutton Wash Frequency',
-        // height: 1000,
-        // width: 1000,
         xaxis: {zeroline:false, showticklabels:false,
                   showgrid: false, range: [-1, 1]},
         yaxis: {zeroline:false, showticklabels:false,
@@ -84,20 +83,6 @@ function buildMetadata(sample) {
 
       Plotly.newPlot('gauge', data, layout);
           }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     buildGauge(response.WFREQ);
 
@@ -117,7 +102,8 @@ function buildCharts(sample) {
       var otu_ids = response.otu_ids;
       var otu_labels = response.otu_labels;
       console.log(response.sample_values.length);
-
+      console.log(`otu_ids:`)
+      console.log(otu_ids)
     // @TODO: Build a Bubble Chart using the sample data
     var trace1 = {
       x: otu_ids,
@@ -133,10 +119,19 @@ function buildCharts(sample) {
     var data = [trace1];
     
     var layout = {
-      title: 'Bubble Chart'
-      // showlegend: false,
-      // height: 600,
-      // width: 600
+      title: {
+        text: `Microbial "Species" (OTU) Present`
+      },
+      xaxis: {
+        title: {
+          text: 'OTU ID'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'OTU Amount'
+        }
+      }
     };
     
     Plotly.newPlot('bubble', data, layout);
@@ -171,15 +166,17 @@ function buildCharts(sample) {
     var trace1 = {
       labels: topOtuIds,
       values: topSampleValues,
-      // text: topOtuLabels,
-      // hoverinfo: 'text',
+      text: 'percent',
+      hovertext: topOtuLabels,
       type: 'pie'
     };
     
     var data = [trace1];
     
     var layout = {
-      title: "Pie Chart",
+      title: {
+        text: `Top Ten Microbial "Species"`
+      },
     };
     
     Plotly.newPlot("pie", data, layout);
